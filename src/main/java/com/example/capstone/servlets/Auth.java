@@ -32,11 +32,10 @@ public class Auth extends HttpServlet {
     public static class SignUp extends HttpServlet {
         @Override
         protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+//            PrintWriter out = response.getWriter();
+            // Loads signup jsp file
+            request.getRequestDispatcher("/signup.jsp").include(request, response);
 
-            PrintWriter out = response.getWriter();
-            out.println("<html><body>");
-            out.println("<h1>" + "Signup" + "</h1>");
-            out.println("</body></html>");
 
         }
 
@@ -51,11 +50,8 @@ public class Auth extends HttpServlet {
     public static class Login extends HttpServlet {
         @Override
         protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-            PrintWriter out = response.getWriter();
-            out.println("<html><body>");
-            out.println("<h1>" + "Login" + "</h1>");
-            out.println("</body></html>");
+            // Loads signup jsp file
+            request.getRequestDispatcher("/login.jsp").include(request, response);
 
         }
 
