@@ -3,12 +3,27 @@ package com.example.capstone.beans;
 import java.util.ArrayList;
 
 public class Admin {
+    private String fullName;
+    private String email;
     private String username;
     private String password;
     private boolean loggedIn;
     private ArrayList<Store> stores = new ArrayList<>();
 
     public Admin() {
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+    public String getEmail() {
+        return email;
+    }
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getUsername() {

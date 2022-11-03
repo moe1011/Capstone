@@ -1,5 +1,8 @@
 package com.example.capstone.servlets;
 
+import com.example.capstone.beans.Admin;
+import com.example.capstone.dao.ApplicationDao;
+
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
@@ -42,6 +45,33 @@ public class Auth extends HttpServlet {
         @Override
         protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+            //filled bean with information from Post request
+            Admin user = new Admin();
+            user.setFullName(request.getParameter("fullName"));
+            user.setEmail(request.getParameter("email"));
+            user.setUsername(request.getParameter("username"));
+            user.setPassword(request.getParameter("password"));
+
+            //Verification that re-entered password matches password
+            String passwordVerification = request.getParameter("passwordConfirm");
+
+            //Feedback message to user after submit.
+            String message = "";
+
+            //called the dao method to create user, only if the two password fields match
+            if (user.getPassword().equals(passwordVerification)) {
+                ApplicationDao dao = new ApplicationDao();
+                dao.createUser(user);
+                message = "User created successfully.";
+            }
+            else {
+                message = "Please enter the same password in both fields.";
+            }
+
+            //sending feedback message as attribute to JSP page.
+            request.setAttribute("feedbackMessage",message);
+
+            doGet(request, response);
         }
     }
 

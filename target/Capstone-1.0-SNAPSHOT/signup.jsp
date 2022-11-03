@@ -14,11 +14,18 @@
 <div style="text-align: center">
     <h1>Signup</h1>
     <br/>
-    <form action="${pageContext.request.contextPath}/home" method="post">
+    <p><%-- need to add the feedback message here--%></p>
+    <form action="${pageContext.request.contextPath}/signup" method="post">
+        <label for="fullName">Full Name:</label>
+        <input type="text" id="fullName" name="fullName" maxlength="60" required><br><br>
+        <label for="email">E-mail:</label>
+        <input type="text" id="email" name="email" maxlength="45" required><br><br>
         <label for="username">Username:</label>
-        <input type="text" id="username" name="username"><br><br>
+        <input type="text" id="username" name="username" maxlength="20" required><br><br>
         <label for="password">Password:</label>
-        <input type="text" id="password" name="password"><br><br>
+        <input type="password" id="password" name="password" maxlength="20" required><br><br>
+        <label for="passwordConfirm">Re-enter Password:</label>
+        <input type="password" id="passwordConfirm" name="passwordConfirm" maxlength="20" required><br><br>
         <input type="submit" value="Signup">
     </form>
 </div>

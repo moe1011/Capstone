@@ -20,6 +20,8 @@
         <label for="password">Password:</label>
         <input type="text" id="password" name="password"><br><br>
         <input type="submit" value="Login">
+    <br/>
+        <p>New user? Sign-up <a href="${pageContext.request.contextPath}/signup">here.</a></p>
     </form>
 </div>
 </body>

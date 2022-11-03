@@ -6,9 +6,9 @@ import java.sql.SQLException;
 
 public class DBConnection {
 
-    private static final String dbUser = "arcadeapp";  //created user in local machine for dbAccess in MySQL
-    private static final String dbPassword = "arcadeapp"; //password for webapps user
-    private static final String stringPath = "jdbc:mysql://localhost:3306/ArcadeDB"; //MySQL address in my local machine.
+    private static final String dbUser = "root";  //created user in local machine for dbAccess in MySQL
+    private static final String dbPassword = "root"; //password for webapps user
+    private static final String stringPath = "jdbc:mysql://localhost:3306/arcadeDB"; //MySQL address in my local machine.
 
     public static Connection getConnectionToDatabase() {
         Connection connection = null;
