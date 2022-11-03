@@ -67,7 +67,29 @@ public class ApplicationDao {
     }
 
     public boolean verifyUserExists(String username) {
-        //placeholder for method that will return true if the username entered exists in the database
-        return false;
+        boolean existingUser = false;
+        try {
+            //connect to database
+            Connection connection = DBConnection.getConnectionToDatabase();
+
+            //query the database with username and password
+            String userQuery = "SELECT * FROM users WHERE username=?";
+
+            //prepare statement
+            PreparedStatement statement = connection.prepareStatement(userQuery);
+            statement.setString(1,username);
+
+            //execute query
+            ResultSet set = statement.executeQuery();
+
+            //validation of return
+            while (set.next()){
+                existingUser=true;
+            }
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return existingUser;
     }
 }

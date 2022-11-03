@@ -63,7 +63,7 @@ public class Auth extends HttpServlet {
                 ApplicationDao dao = new ApplicationDao();
                 //verification if username already present in the database.
                 if (dao.verifyUserExists(user.getUsername())) {
-                    message = "Username already exists";
+                    message = "Username already exists. Please enter a different username.";
                 }
                 else {
                     dao.createUser(user);
@@ -100,9 +100,10 @@ public class Auth extends HttpServlet {
             //call Dao to verify if user in DB
             ApplicationDao dao = new ApplicationDao();
             boolean isValidUser = dao.validateUser(user.getUsername(), user.getPassword());
+            user.setLoggedIn(isValidUser);
 
             //check if user is valid
-            if (isValidUser){
+            if (user.isLoggedIn()){
                 //Set up HTTP session object
                 HttpSession session = request.getSession();
 
@@ -117,6 +118,28 @@ public class Auth extends HttpServlet {
                 request.setAttribute("error", errorMessage);
                 request.getRequestDispatcher("/login.jsp").forward(request, response);
             }
+        }
+    }
+
+    @WebServlet(name = "logout", value = "/logout")
+    public static class Logout extends HttpServlet {
+        @Override
+        protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+            //Obtain the session object (if current is existing)
+            HttpSession session = request.getSession();
+
+            //Close the session by invalidate
+            session.invalidate();
+
+            //Redirect to login page with a thank you message
+            request.setAttribute("error","Thank you for using the application.");
+            request.getRequestDispatcher("/login.jsp").include(request, response);
+
+        }
+
+        @Override
+        protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
         }
     }
 

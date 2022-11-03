@@ -10,7 +10,7 @@
     <h1 >Capstone - Stage 2</h1>
     <br/>
     <h2>
-        <a style="margin-right: 5%" href="signup"><button class="btn">Signup</button></a>
+        <a style="margin-right: 5%" href="signup"><button class="btn">Sign Up</button></a>
         <a href="login"><button class="btn">Login</button></a>
     </h2>
 

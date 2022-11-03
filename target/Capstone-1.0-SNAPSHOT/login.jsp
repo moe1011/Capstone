@@ -22,11 +22,11 @@
         <input type="text" id="username" name="username"><br><br>
         <label for="password">Password:</label>
         <input type="password" id="password" name="password"><br><br>
-        <input type="submit" value="Login">
-    <br/>
+        <input type="submit" value="Login"><br>
+    </form>
         <p>New user? Sign-up <a href="${pageContext.request.contextPath}/signup">here.</a></p>
         <p>Forgot your password? Click <a href="${pageContext.request.contextPath}/passwordRecovery">here.</a></p>
-    </form>
+
 </div>
 </body>
 </html>
