@@ -28,7 +28,16 @@
             </div>
         </div>
 
+        <div style="justify-content: center; display: flex;">
+        <form action="${pageContext.request.contextPath}/logout">
+            <input type="submit" class="btn Nav" value="Logout">
+        </form>
+        </div>
+        <br/>
+
+        <div style="justify-content: center; display: flex;">
         <button class="btn Nav">Company Logo / Current Date</button>
+        </div>
     </div>
 
 </div>
