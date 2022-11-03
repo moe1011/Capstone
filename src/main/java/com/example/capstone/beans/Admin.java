@@ -1,10 +1,12 @@
 package com.example.capstone.beans;
 
+import java.util.ArrayList;
+
 public class Admin {
     private String username;
     private String password;
     private boolean loggedIn;
-    private Store[] stores;
+    private ArrayList<Store> stores = new ArrayList<>();
 
     public Admin() {
     }
@@ -33,11 +35,15 @@ public class Admin {
         this.loggedIn = loggedIn;
     }
 
-    public Store[] getStores() {
+    public ArrayList<Store> getStores() {
         return stores;
     }
 
-    public void setStores(Store[] stores) {
+    public void setStores(ArrayList<Store> stores) {
         this.stores = stores;
+    }
+
+    public void addStore(Store store){
+        stores.add(store);
     }
 }
