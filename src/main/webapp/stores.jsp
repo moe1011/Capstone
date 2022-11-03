@@ -34,6 +34,8 @@
 </div>
 
 <%
+    ArrayList<Store> stores;
+    Store selectedStore;
     // Retrieves the servlet which caused this jsp to be called
     String servletPath = request.getServletPath();
     // The view stores servlet
@@ -44,20 +46,19 @@
 <div style="display: flex; justify-content: center;"><h1>VIEW</h1></div>
 <div style="display: flex; justify-content: center; margin-top: 10px">
 
-
-    <form id="form1" method="get" action="stores" onsubmit="return false">
+    <form id="viewForm" method="get" action="stores" onsubmit="return false">
         <%
             //            int selectedIndex = request.getAttribute("selectedStoreIndex") != null ?
 //                    (int) request.getAttribute("selectedStoreIndex") : -1;
         %>
-        <select onchange="document.getElementById('form1').submit();" name="selectedStore" id="selectedStore">
+        <select onchange="document.getElementById('viewForm').submit();" name="selectedStore" id="selectedStore">
             <option disabled selected>Select a store</option>
             <%
-                ArrayList<Store> stores = (ArrayList) request.getAttribute("stores");
+                stores = (ArrayList) request.getAttribute("stores");
 
                 for (int i = 0; i < stores.size(); i++) {
             %>
-            <option value="<%=i%>"><%=stores.get(i).getStoreName()%></option>
+            <option value="<%=i%>"><%= stores.get(i).getStoreId()+" | "+ stores.get(i).getStoreName()%></option>
             <%
                 }
             %>
@@ -68,7 +69,7 @@
 <%--Store Information--%>
 <div style="display: flex; justify-content: center; margin-top: 20px">
     <%
-        Store selectedStore = (Store) request.getAttribute("selectedStore");
+        selectedStore = (Store) request.getAttribute("selectedStore");
         if(selectedStore != null){
     %>
     <p style="margin-right: 10px"><%=selectedStore.getStoreId()%></p>
@@ -87,7 +88,17 @@
 %>
 <%--Add Stores--%>
 <div style="display: flex; justify-content: center;"><h1>ADD</h1></div>
-
+<div style="display: flex; justify-content: center;">
+<%--    <% String hidden = "hidden";%>--%>
+<form action="">
+    <label for="storeName">Store Name:</label><br>
+    <input type="text" id="storeName" name="storeName" placeholder="My Arcade" required><br>
+    <label for="storeAddress">Store Address:</label><br>
+    <input type="text" id="storeAddress" name="storeAddress" placeholder="123 Street" required><br>
+    <input style="margin-top: 10px" type="submit" value="Submit">
+<%--    <p <%=hidden%>>Store Added!</p>--%>
+</form>
+</div>
 <%
     }
     // Edit stores servlet
@@ -95,6 +106,41 @@
 %>
 <%--Edit Stores--%>
 <div style="display: flex; justify-content: center;"><h1>EDIT</h1></div>
+<div style="display: flex; justify-content: center; margin-top: 10px">
+
+    <form id="editForm" method="get" action="editstores" onsubmit="return false">
+
+        <select onchange="document.getElementById('editForm').submit();" name="selectedStore">
+            <option disabled selected>Select a store</option>
+            <%
+                stores = (ArrayList) request.getAttribute("stores");
+
+                for (int i = 0; i < stores.size(); i++) {
+            %>
+            <option value="<%=i%>"><%= stores.get(i).getStoreId()+" | "+ stores.get(i).getStoreName()%></option>
+            <%
+                }
+            %>
+        </select>
+    </form>
+</div>
+<div style="display: flex; justify-content: center;">
+    <%
+        selectedStore = (Store) request.getAttribute("selectedStore");
+        if(selectedStore != null){
+    %>
+    <form action="editstores">
+        <label for="storeName">Store Name:</label><br>
+        <input type="text" name="storeName" value="<%=selectedStore.getStoreName()%>" required><br><br>
+        <label for="storeAddress">Store Address:</label><br>
+        <input type="text" name="storeAddress" value="<%=selectedStore.getStoreAddress()%>" required><br><br>
+        <input value="<%=selectedStore.getStoreId()%>" hidden name="id">
+        <input type="submit" value="Edit">
+    </form>
+    <%
+        }
+    %>
+</div>
 
 <%
 }
@@ -103,11 +149,46 @@
 %>
 <%--Remove Stores--%>
 <div style="display: flex; justify-content: center;"><h1>REMOVE</h1></div>
+<div style="display: flex; justify-content: center; margin-top: 10px">
+
+
+    <form id="removeForm" method="get" action="removestores" onsubmit="return false">
+
+        <select onchange="document.getElementById('removeForm').submit();" name="selectedStore" >
+            <option disabled selected>Select a store</option>
+            <%
+                stores = (ArrayList) request.getAttribute("stores");
+
+                for (int i = 0; i < stores.size(); i++) {
+            %>
+            <option value="<%=i%>"><%= stores.get(i).getStoreId()+" | "+ stores.get(i).getStoreName()%></option>
+            <%
+                }
+            %>
+        </select>
+    </form>
+</div>
+<div>
+    <%
+        selectedStore = (Store) request.getAttribute("selectedStore");
+        if(selectedStore != null){
+    %>
+    <form action="removestores" style="display: flex; justify-content: center; margin-top: 20px">
+        <p style="margin-right: 10px"><%=selectedStore.getStoreId()%></p>
+        <p style="margin-right: 10px"><%=selectedStore.getStoreName()%></p>
+        <p style="margin-right: 10px"><%=selectedStore.getStoreAddress()%></p>
+        <p style="margin-right: 10px"><%=selectedStore.getGamesList()%></p>
+        <button name="removeStore" type="submit" value="Remove">Remove</button>
+    </form>
+
+    <%
+        }
+    %>
+</div>
 
 <%
 }
 %>
-
 
 </body>
 </html>

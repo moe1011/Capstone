@@ -58,7 +58,27 @@ public class Admin {
         this.stores = stores;
     }
 
+    public Store getStoreById(long id){
+        for (Store store : stores) {
+            if (store.getStoreId() == id) {
+                return store;
+            }
+        }
+        return null;
+    }
+
+    public void setStoreById(long id, Store newStore){
+        for (int i = 0; i < stores.size(); i++) {
+            if (stores.get(i).getStoreId() == id) {
+                stores.set(i, newStore);
+            }
+        }
+    }
+
     public void addStore(Store store){
         stores.add(store);
+    }
+    public void removeStore(Store store){
+        stores.remove(store);
     }
 }

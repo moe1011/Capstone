@@ -39,7 +39,7 @@ public class Application extends HttpServlet {
             request.setAttribute("stores", admin.getStores());
 
             String selectedStore = request.getParameter("selectedStore");
-            System.out.println(selectedStore);
+//            System.out.println(selectedStore);
             if (selectedStore != null){
                 Store chosenStore = admin.getStores().get(Integer.parseInt(selectedStore));
                 request.setAttribute("selectedStoreIndex", Integer.parseInt(selectedStore));
@@ -63,6 +63,13 @@ public class Application extends HttpServlet {
 
             @Override
             protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+                String storeName = request.getParameter("storeName");
+                String storeAddress = request.getParameter("storeAddress");
+
+                if(storeName != null && storeAddress != null){
+                    admin.addStore(new Store(storeName, storeAddress));
+                }
+
 
                 request.getRequestDispatcher("/stores.jsp").include(request, response);
             }
@@ -76,9 +83,32 @@ public class Application extends HttpServlet {
         }
         @WebServlet(name = "editstores", value = "/editstores")
         public static class EditStores extends HttpServlet {
-
+            Store chosenStore = null;
             @Override
             protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+                request.setAttribute("stores", admin.getStores());
+
+                String selectedStore = request.getParameter("selectedStore");
+                if (selectedStore != null){
+                    chosenStore = admin.getStores().get(Integer.parseInt(selectedStore));
+                    request.setAttribute("selectedStoreIndex", Integer.parseInt(selectedStore));
+
+                    request.setAttribute("selectedStore", chosenStore);
+                }
+
+                String storeName = request.getParameter("storeName");
+                String storeAddress = request.getParameter("storeAddress");
+                long storeId = request.getParameter("id") != null ? Long.parseLong(request.getParameter("id")) : -1;
+
+                if(storeName != null && storeAddress != null){
+                    Store fetchedStore = admin.getStoreById(storeId);
+                    if(fetchedStore != null){
+                        fetchedStore.setStoreName(storeName);
+                        fetchedStore.setStoreAddress(storeAddress);
+                        admin.setStoreById(storeId, fetchedStore);
+                    }
+                }
+
 
                 request.getRequestDispatcher("/stores.jsp").include(request, response);
             }
@@ -92,9 +122,25 @@ public class Application extends HttpServlet {
         }
         @WebServlet(name = "removestores", value = "/removestores")
         public static class RemoveStores extends HttpServlet {
+            Store chosenStore = null;
 
             @Override
             protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+                request.setAttribute("stores", admin.getStores());
+
+                String selectedStore = request.getParameter("selectedStore");
+
+                if (selectedStore != null){
+                    chosenStore = admin.getStores().get(Integer.parseInt(selectedStore));
+                    request.setAttribute("selectedStoreIndex", Integer.parseInt(selectedStore));
+
+                    request.setAttribute("selectedStore", chosenStore);
+                }
+
+                if(request.getParameter("removeStore") != null && chosenStore != null){
+                        admin.removeStore(chosenStore);
+                }
+
 
                 request.getRequestDispatcher("/stores.jsp").include(request, response);
             }

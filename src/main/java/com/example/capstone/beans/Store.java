@@ -1,11 +1,11 @@
 package com.example.capstone.beans;
 
 public class Store {
-    private long storeId; // Auto Increment somehow
+    private long storeId; // Will be retrieved after being added to database?
     private String storeName;
     private String storeAddress;
     private String[] gamesList;
-    private static long counter = 1;
+    private static long counter = 1; // Temporary until database is setup
 
     public Store(){
         this.storeId = counter;
@@ -46,4 +46,5 @@ public class Store {
     public void setGamesList(String[] gamesList) {
         this.gamesList = gamesList;
     }
+
 }
