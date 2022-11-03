@@ -7,25 +7,13 @@ CREATE TABLE IF NOT EXISTS `arcadeDB`.`users` (
   `email` VARCHAR(45) NOT NULL,
   `username` VARCHAR(20) NOT NULL,
   `password` VARCHAR(20) NOT NULL,
-  PRIMARY KEY (`id`, `username`));
+  PRIMARY KEY (`id`));
 
 CREATE TABLE IF NOT EXISTS `arcadeDB`.`store` (
   `id` INT NOT NULL auto_increment,
   `name` VARCHAR(45) NOT NULL,
   `location` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`id`));
-
-CREATE TABLE IF NOT EXISTS `arcadeDB`.`employee` (
-  `id` INT NOT NULL auto_increment,
-  `fullName` VARCHAR(45) NOT NULL,
-  `address` VARCHAR(45) NULL,
-  `StoreID` INT NOT NULL,
-  PRIMARY KEY (`id`),
-  CONSTRAINT `fk_Employee_Stores`
-    FOREIGN KEY (`StoreID`)
-    REFERENCES `arcadeDB`.`store` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION);
 
 CREATE TABLE IF NOT EXISTS `arcadeDB`.`game` (
   `id` INT NOT NULL auto_increment,

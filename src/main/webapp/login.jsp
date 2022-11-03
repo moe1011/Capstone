@@ -14,14 +14,18 @@
 <div style="text-align: center">
     <h1>Login</h1>
     <br/>
-    <form action="${pageContext.request.contextPath}/home" method="post">
+    <p><% if (request.getAttribute("error") != null) { %>
+    <%= request.getAttribute("error") %>
+        <% } %></p>
+    <form action="${pageContext.request.contextPath}/login" method="post">
         <label for="username">Username:</label>
         <input type="text" id="username" name="username"><br><br>
         <label for="password">Password:</label>
-        <input type="text" id="password" name="password"><br><br>
+        <input type="password" id="password" name="password"><br><br>
         <input type="submit" value="Login">
     <br/>
         <p>New user? Sign-up <a href="${pageContext.request.contextPath}/signup">here.</a></p>
+        <p>Forgot your password? Click <a href="${pageContext.request.contextPath}/passwordRecovery">here.</a></p>
     </form>
 </div>
 </body>

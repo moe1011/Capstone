@@ -12,9 +12,10 @@
 </head>
 <body>
 <div style="text-align: center">
-    <h1>Signup</h1>
-    <br/>
-    <p><%-- need to add the feedback message here--%></p>
+    <h1>Sign-up</h1>
+    <p><% if (request.getAttribute("feedbackMessage") != null) { %>
+       <%=request.getAttribute("feedbackMessage")%>
+       <% } %> </p>
     <form action="${pageContext.request.contextPath}/signup" method="post">
         <label for="fullName">Full Name:</label>
         <input type="text" id="fullName" name="fullName" maxlength="60" required><br><br>
@@ -26,8 +27,9 @@
         <input type="password" id="password" name="password" maxlength="20" required><br><br>
         <label for="passwordConfirm">Re-enter Password:</label>
         <input type="password" id="passwordConfirm" name="passwordConfirm" maxlength="20" required><br><br>
-        <input type="submit" value="Signup">
+        <input type="submit" value="Sign Up">
     </form>
+    <p><a href="${pageContext.request.contextPath}/index.jsp">Back to main page.</a></p>
 </div>
 </body>
 </html>

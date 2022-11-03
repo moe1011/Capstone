@@ -61,8 +61,14 @@ public class Auth extends HttpServlet {
             //called the dao method to create user, only if the two password fields match
             if (user.getPassword().equals(passwordVerification)) {
                 ApplicationDao dao = new ApplicationDao();
-                dao.createUser(user);
-                message = "User created successfully.";
+                //verification if username already present in the database.
+                if (dao.verifyUserExists(user.getUsername())) {
+                    message = "Username already exists";
+                }
+                else {
+                    dao.createUser(user);
+                    message = "User created successfully.";
+                }
             }
             else {
                 message = "Please enter the same password in both fields.";
@@ -87,7 +93,30 @@ public class Auth extends HttpServlet {
 
         @Override
         protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+            Admin user = new Admin();
+            user.setUsername(request.getParameter("username"));
+            user.setPassword(request.getParameter("password"));
 
+            //call Dao to verify if user in DB
+            ApplicationDao dao = new ApplicationDao();
+            boolean isValidUser = dao.validateUser(user.getUsername(), user.getPassword());
+
+            //check if user is valid
+            if (isValidUser){
+                //Set up HTTP session object
+                HttpSession session = request.getSession();
+
+                //Set username as an attribute in the session
+                session.setAttribute("username", user.getUsername());
+
+                //If user is valid sent to home page
+                request.getRequestDispatcher("/home.jsp").forward(request, response);
+            }
+            else {
+                String errorMessage = "Invalid username and password combination";
+                request.setAttribute("error", errorMessage);
+                request.getRequestDispatcher("/login.jsp").forward(request, response);
+            }
         }
     }
 
