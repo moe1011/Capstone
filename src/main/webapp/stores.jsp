@@ -15,7 +15,7 @@
 <body>
 <%--Nav--%>
 <div>
-    <h1 style="text-align: center">Home</h1>
+    <h1 style="text-align: center">Store</h1>
     <br/>
     <div style="justify-content: center; display: flex;">
         <a href="home" class="Nav"><button class="btn">Home</button></a>
@@ -29,15 +29,16 @@
             </div>
         </div>
 
-        <div style="justify-content: center; display: flex;">
-            <form action="${pageContext.request.contextPath}/logout">
-                <input type="submit" class="btn Nav" value="Logout">
-            </form>
-        </div>
+
         <br/>
 
         <div style="justify-content: center; display: flex;">
             <button class="btn Nav">Company Logo / Current Date</button>
+        </div>
+        <div style="justify-content: center; display: flex;">
+            <form action="${pageContext.request.contextPath}/logout">
+                <input type="submit" class="btn Nav" value="Logout">
+            </form>
         </div>
     </div>
 
@@ -85,7 +86,7 @@
     <p style="margin-right: 10px"><%=selectedStore.getStoreId()%></p>
     <p style="margin-right: 10px"><%=selectedStore.getStoreName()%></p>
     <p style="margin-right: 10px"><%=selectedStore.getStoreAddress()%></p>
-    <p><%=selectedStore.getGamesList()%></p>
+    <p><%=selectedStore.getGamesList() != null ? selectedStore.getGamesList() : "[No Games in the Store]"%></p>
     <%
         }
     %>
@@ -187,7 +188,7 @@
         <p style="margin-right: 10px"><%=selectedStore.getStoreId()%></p>
         <p style="margin-right: 10px"><%=selectedStore.getStoreName()%></p>
         <p style="margin-right: 10px"><%=selectedStore.getStoreAddress()%></p>
-        <p style="margin-right: 10px"><%=selectedStore.getGamesList()%></p>
+        <%=selectedStore.getGamesList() != null ? selectedStore.getGamesList() : "[No Games in the Store]"%>
         <button name="removeStore" type="submit" value="Remove">Remove</button>
     </form>
 
