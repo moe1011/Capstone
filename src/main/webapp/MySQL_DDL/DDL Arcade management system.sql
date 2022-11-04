@@ -7,7 +7,11 @@ CREATE TABLE IF NOT EXISTS `arcadeDB`.`users` (
   `email` VARCHAR(45) NOT NULL,
   `username` VARCHAR(20) NOT NULL,
   `password` VARCHAR(20) NOT NULL,
-  PRIMARY KEY (`id`));
+  `verifiedEmail` VARCHAR(5) NOT NULL,
+  `emailVerificationToken` VARCHAR(45) NULL,
+  `passwordResetToken` VARCHAR(45) NULL,
+
+  PRIMARY KEY (`id`, `username`));
 
 CREATE TABLE IF NOT EXISTS `arcadeDB`.`store` (
   `id` INT NOT NULL auto_increment,

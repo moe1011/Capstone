@@ -8,6 +8,7 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.UUID;
 
 /**
  * This is where the user Sign up / Log in (and possibly Log out) pages will be made.
@@ -110,7 +111,22 @@ public class Auth extends HttpServlet {
                 //Set username as an attribute in the session
                 session.setAttribute("username", user.getUsername());
 
-                //If user is valid sent to home page
+                //Check in DB if email is validated
+                boolean isEmailVerified = dao.checkEmailVerified(user.getUsername());
+                user.setVerifiedEmail(isEmailVerified);
+
+                //If email is not verified, send verification email
+                if (!isEmailVerified) {
+                    String token = String.valueOf(UUID.randomUUID());
+                    sendVerificationEmail(user, token);
+
+                    //add generated token to database
+                    dao.addEmailVerificationToken(user.getUsername(), token);
+
+                    //forward to email verification
+                    request.getRequestDispatcher("/emailverification.jsp").forward(request, response);
+                }
+
                 request.getRequestDispatcher("/home.jsp").forward(request, response);
             }
             else {
@@ -118,6 +134,16 @@ public class Auth extends HttpServlet {
                 request.setAttribute("error", errorMessage);
                 request.getRequestDispatcher("/login.jsp").forward(request, response);
             }
+        }
+
+        private void sendVerificationEmail(Admin user, String token) {
+            //send email
+            System.out.println("Hello, " + user.getUsername() + "\n\n" +
+                    "You are receiving this email because your account is not verified. \n" +
+                    "Please click the following link: \n" +
+                    getServletContext().getContextPath() + "/emailverified?username=" + user.getUsername() +
+                    "&token=" + token + "\n\n" +
+                    "Alternatively, you can copy and paste the link to your browser.");
         }
     }
 
@@ -143,5 +169,30 @@ public class Auth extends HttpServlet {
         }
     }
 
-} // End of Auth class
+    @WebServlet(name = "emailverified", value = "/emailverified")
+    public static class emailverified extends HttpServlet {
+        @Override
+        protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+            String token = request.getParameter("token");
+            String username = request.getParameter("username");
+
+            //Obtain token from database
+            ApplicationDao dao = new ApplicationDao();
+            String tokenFromDatabase = dao.getEmailVerificationToken(username);
+
+            if (token.equals(tokenFromDatabase)) {
+                //call db to mark email as verified for this user.
+                dao.markEmailVerified(username);
+                System.out.println("Token verified!");
+
+                request.setAttribute("emailValidatedMessage", "Your email has been verified.");
+            } else {
+                request.setAttribute("emailValidatedMessage", "Invalid token. Your e-mail will be verified the next time you log in to your account.");
+            }
+            request.getRequestDispatcher("/emailverified.jsp").forward(request,response);
+
+        }
+    }
+
+} // End of Auth class

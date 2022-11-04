@@ -1,14 +1,18 @@
 package com.example.capstone.beans;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class Admin {
     private String fullName;
     private String email;
+    private boolean verifiedEmail = false; //default value when creating user object
     private String username;
     private String password;
     private boolean loggedIn;
     private ArrayList<Store> stores = new ArrayList<>();
+
+
 
     public Admin() {
     }
@@ -25,7 +29,8 @@ public class Admin {
     public void setEmail(String email) {
         this.email = email;
     }
-
+    public boolean getVerifiedEmail() { return verifiedEmail;}
+    public void setVerifiedEmail(boolean verifiedEmail) {this.verifiedEmail = verifiedEmail;}
     public String getUsername() {
         return username;
     }
