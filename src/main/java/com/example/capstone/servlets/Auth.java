@@ -195,4 +195,22 @@ public class Auth extends HttpServlet {
         }
     }
 
+    @WebServlet(name = "passwordRecovery", value = "/passwordRecovery")
+    public static class passwordRecovery extends HttpServlet {
+        @Override
+        protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+            PrintWriter out = response.getWriter();
+            out.println("<html><body>");
+            out.println("<h1>" + "Password recovery process" + "</h1>");
+            out.println("<p>" + "Site under construction. Please come back later." + "</p>");
+            out.println("</body></html>");
+
+        }
+
+        @Override
+        protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        }
+    }
 } // End of Auth class
