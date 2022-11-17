@@ -62,9 +62,12 @@ public class Auth extends HttpServlet {
             //called the dao method to create user, only if the two password fields match
             if (user.getPassword().equals(passwordVerification)) {
                 ApplicationDao dao = new ApplicationDao();
-                //verification if username already present in the database.
+                //verification if username or email already present in the database.
                 if (dao.verifyUserExists(user.getUsername())) {
                     message = "Username already exists. Please enter a different username.";
+                }
+                else if (dao.verifyEmailExists(user.getEmail())) {
+                    message = "Email already in use, please use a different email address.";
                 }
                 else {
                     dao.createUser(user);
@@ -200,17 +203,78 @@ public class Auth extends HttpServlet {
         @Override
         protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-            PrintWriter out = response.getWriter();
-            out.println("<html><body>");
-            out.println("<h1>" + "Password recovery process" + "</h1>");
-            out.println("<p>" + "Site under construction. Please come back later." + "</p>");
-            out.println("</body></html>");
+            request.getRequestDispatcher("/recoverpassword.jsp").forward(request,response);
 
         }
 
         @Override
         protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+            //get email address
+                String email = request.getParameter("email");
+
+            //password recovery token
+                String passwordToken = String.valueOf(UUID.randomUUID());
+
+            //validate if email is present in database and add token and send reset email if exists
+                ApplicationDao dao = new ApplicationDao();
+
+                if (dao.verifyEmailExists(email)) {
+                    dao.addPasswordResetToken(email, passwordToken);
+                    sendPasswordResetEmail(email, passwordToken);
+                    request.setAttribute("passwordRecoveryMessage", "An email has been sent to your account. Please follow the instructions to reset your password.");
+                }
+                else {
+                    request.setAttribute("passwordRecoveryMessage", "Sorry, the email entered does not belong to a valid account.");
+                }
+
+            request.getRequestDispatcher("/recoverpassword.jsp").forward(request,response);
+        }
+        private void sendPasswordResetEmail(String email, String passwordToken) {
+            //send email
+            System.out.println("Hello,\n\n" +
+                    "You are receiving this email because there was a request to reset your password. \n" +
+                    "Please click the following link: \n" +
+                    getServletContext().getContextPath() + "/passwordReset?email=" + email +
+                    "&token=" + passwordToken + "\n\n" +
+                    "Alternatively, you can copy and paste the link to your browser.");
         }
     }
+
+    @WebServlet(name = "passwordReset", value = "/passwordReset")
+    public static class passwordReset extends HttpServlet {
+        @Override
+        protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+            //get email and passwordToken
+            String email = request.getParameter("email");
+            String passwordToken = request.getParameter("token");
+
+            //check if correct in database, if ok, display password reset, else, redirect to login
+            ApplicationDao dao = new ApplicationDao();
+            if (dao.verifyPasswordResetToken(email,passwordToken)) {
+                request.setAttribute("email",email);
+                request.getRequestDispatcher("/passwordreset.jsp").forward(request, response);
+            }
+            else {
+                request.setAttribute("error","Invalid password reset request, please request a new password reset email.");
+                request.getRequestDispatcher("/login").forward(request,response);
+            }
+        }
+        protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+            //get email and new password.
+            String email = request.getParameter("email");
+            String newPassword = request.getParameter("password");
+
+            //update database with information
+            ApplicationDao dao = new ApplicationDao();
+            dao.changePassword(email,newPassword);
+
+            request.getRequestDispatcher("/passwordresetsuccess.jsp").forward(request,response);
+
+        }
+
+    }
+
 } // End of Auth class

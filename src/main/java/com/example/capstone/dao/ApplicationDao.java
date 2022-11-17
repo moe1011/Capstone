@@ -202,4 +202,111 @@ public class ApplicationDao {
             e.printStackTrace();
         }
     }
+
+    public boolean verifyEmailExists(String email) {
+        boolean existingEmail = false;
+        try {
+            //connect to database
+            Connection connection = DBConnection.getConnectionToDatabase();
+
+            //query the database with username and password
+            String userQuery = "SELECT * FROM users WHERE email=?";
+
+            //prepare statement
+            PreparedStatement statement = connection.prepareStatement(userQuery);
+            statement.setString(1,email);
+
+            //execute query
+            ResultSet set = statement.executeQuery();
+
+            //validation of return
+            while (set.next()){
+                existingEmail=true;
+            }
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return existingEmail;
+    }
+
+    public void addPasswordResetToken(String email, String passwordToken) {
+        try {
+            //Connect to DB
+            Connection connection = DBConnection.getConnectionToDatabase();
+
+            //Write query
+            String passwordResetQuery = "UPDATE users SET passwordResetToken=? WHERE email=?";
+
+            //Set parameters with PreparedStatement
+            PreparedStatement statement = connection.prepareStatement(passwordResetQuery);
+            statement.setString(1, passwordToken);
+            statement.setString(2, email);
+
+            //Execute the Statement
+            statement.executeUpdate();
+
+            //close the connection
+            statement.close();
+        }
+
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public boolean verifyPasswordResetToken(String email, String passwordToken) {
+        boolean validPasswordResetToken = false;
+        try {
+            //connect to database
+            Connection connection = DBConnection.getConnectionToDatabase();
+
+            //query the database with username and password
+            String userQuery = "SELECT * FROM users WHERE email=?";
+
+            //prepare statement
+            PreparedStatement statement = connection.prepareStatement(userQuery);
+            statement.setString(1,email);
+
+            //execute query
+            ResultSet set = statement.executeQuery();
+
+            //validation of return
+            while (set.next()){
+                String tokenFromDB = set.getString("passwordResetToken");
+                if (tokenFromDB.equals(passwordToken)) {
+                    validPasswordResetToken = true;
+                }
+            }
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return validPasswordResetToken;
+    }
+
+    public void changePassword(String email, String newPassword) {
+        try {
+            //Connect to DB
+            Connection connection = DBConnection.getConnectionToDatabase();
+
+            //Write query
+            String passwordResetQuery = "UPDATE users SET password=? WHERE email=?";
+
+            //Set parameters with PreparedStatement
+            PreparedStatement statement = connection.prepareStatement(passwordResetQuery);
+            statement.setString(1, newPassword);
+            statement.setString(2, email);
+
+            //Execute the Statement
+            statement.executeUpdate();
+
+            //close the connection
+            statement.close();
+        }
+
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
