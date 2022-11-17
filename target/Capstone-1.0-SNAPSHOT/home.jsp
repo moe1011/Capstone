@@ -14,7 +14,9 @@
 
 <body>
 <div>
+
     <h1 style="text-align: center">Home</h1>
+
     <br/>
     <div style="justify-content: center; display: flex;">
         <a href="home" class="Nav"><button class="btn">Home</button></a>
@@ -28,15 +30,16 @@
             </div>
         </div>
 
-        <div style="justify-content: center; display: flex;">
-        <form action="${pageContext.request.contextPath}/logout">
-            <input type="submit" class="btn Nav" value="Logout">
-        </form>
-        </div>
+
         <br/>
 
         <div style="justify-content: center; display: flex;">
         <button class="btn Nav">Company Logo / Current Date</button>
+        </div>
+        <div style="justify-content: center; display: flex;">
+            <form action="${pageContext.request.contextPath}/logout">
+                <input type="submit" class="btn Nav" value="Logout">
+            </form>
         </div>
     </div>
 
