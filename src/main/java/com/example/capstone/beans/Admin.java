@@ -1,14 +1,36 @@
 package com.example.capstone.beans;
 
+import java.util.ArrayList;
+import java.util.UUID;
+
 public class Admin {
+    private String fullName;
+    private String email;
+    private boolean verifiedEmail = false; //default value when creating user object
     private String username;
     private String password;
     private boolean loggedIn;
-    private Store[] stores;
+    private ArrayList<Store> stores = new ArrayList<>();
+
+
 
     public Admin() {
     }
 
+    public String getFullName() {
+        return fullName;
+    }
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+    public String getEmail() {
+        return email;
+    }
+    public void setEmail(String email) {
+        this.email = email;
+    }
+    public boolean getVerifiedEmail() { return verifiedEmail;}
+    public void setVerifiedEmail(boolean verifiedEmail) {this.verifiedEmail = verifiedEmail;}
     public String getUsername() {
         return username;
     }
@@ -33,11 +55,35 @@ public class Admin {
         this.loggedIn = loggedIn;
     }
 
-    public Store[] getStores() {
+    public ArrayList<Store> getStores() {
         return stores;
     }
 
-    public void setStores(Store[] stores) {
+    public void setStores(ArrayList<Store> stores) {
         this.stores = stores;
+    }
+
+    public Store getStoreById(long id){
+        for (Store store : stores) {
+            if (store.getStoreId() == id) {
+                return store;
+            }
+        }
+        return null;
+    }
+
+    public void setStoreById(long id, Store newStore){
+        for (int i = 0; i < stores.size(); i++) {
+            if (stores.get(i).getStoreId() == id) {
+                stores.set(i, newStore);
+            }
+        }
+    }
+
+    public void addStore(Store store){
+        stores.add(store);
+    }
+    public void removeStore(Store store){
+        stores.remove(store);
     }
 }
