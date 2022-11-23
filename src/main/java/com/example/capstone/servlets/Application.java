@@ -7,8 +7,7 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 import com.example.capstone.beans.Store;
-import java.io.PrintWriter;
-import java.util.ArrayList;
+import com.example.capstone.beans.StoreBuilder;
 
 import static java.lang.Long.parseLong;
 
@@ -67,7 +66,7 @@ public class Application extends HttpServlet {
                 String storeAddress = request.getParameter("storeAddress");
 
                 if(storeName != null && storeAddress != null){
-                    admin.addStore(new Store(storeName, storeAddress));
+                    admin.addStore(new StoreBuilder().setStoreName(storeName).setStoreAddress(storeAddress).createStore());
                 }
 
 
@@ -152,6 +151,41 @@ public class Application extends HttpServlet {
             }
 
         }
+
+        // Games Section
+        @WebServlet(name = "addgames", value = "/addgames")
+        public static class AddGames extends HttpServlet {
+            Store chosenStore = null;
+            @Override
+            protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+                request.setAttribute("stores", admin.getStores());
+
+                String selectedStore = request.getParameter("selectedStore");
+                if (selectedStore != null){
+                    chosenStore = admin.getStores().get(Integer.parseInt(selectedStore));
+                    request.setAttribute("selectedStoreIndex", Integer.parseInt(selectedStore));
+
+                    request.setAttribute("selectedStore", chosenStore);
+                }
+
+                String gameName = request.getParameter("gameName");
+
+                if(gameName != null){
+                    chosenStore.addGame(gameName);
+                }
+
+
+                request.getRequestDispatcher("/stores.jsp").include(request, response);
+            }
+
+            @Override
+            protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+                request.getRequestDispatcher("/stores.jsp").include(request, response);
+            }
+
+        }
+
 
 
     }

@@ -29,3 +29,4 @@ CREATE TABLE IF NOT EXISTS `arcadeDB`.`game` (
     REFERENCES `arcadeDB`.`store` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
+

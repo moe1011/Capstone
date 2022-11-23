@@ -28,8 +28,14 @@
                 <a href="removestores">Remove Stores</a>
             </div>
         </div>
-
-
+        <br/>
+        <div class="dropdown">
+            <button class="btn Nav">Games</button>
+            <div class="dropdown-content">
+                <a href="addgames">Add Games</a>
+                <a href="">Remove Games</a>
+            </div>
+        </div>
         <br/>
 
         <div style="justify-content: center; display: flex;">
@@ -83,10 +89,9 @@
         selectedStore = (Store) request.getAttribute("selectedStore");
         if(selectedStore != null){
     %>
-    <p style="margin-right: 10px"><%=selectedStore.getStoreId()%></p>
-    <p style="margin-right: 10px"><%=selectedStore.getStoreName()%></p>
-    <p style="margin-right: 10px"><%=selectedStore.getStoreAddress()%></p>
-    <p><%=selectedStore.getGamesList() != null ? selectedStore.getGamesList() : "[No Games in the Store]"%></p>
+    <h4 style="margin-right: 10px"><%=selectedStore.getStoreId()%> | <%=selectedStore.getStoreName()%>
+        | <%=selectedStore.getStoreAddress()%> | <%=!selectedStore.getGamesList().isEmpty() ? selectedStore.getGamesList()
+                : "[No Games in the Store]"%></h4>
     <%
         }
     %>
@@ -98,7 +103,7 @@
     else if(servletPath.equals("/addstores")){
 %>
 <%--Add Stores--%>
-<div style="display: flex; justify-content: center;"><h1>ADD</h1></div>
+<div style="display: flex; justify-content: center;"><h1>ADD STORE</h1></div>
 <div style="display: flex; justify-content: center;">
 <%--    <% String hidden = "hidden";%>--%>
 <form action="">
@@ -116,7 +121,7 @@
     else if(servletPath.equals("/editstores")){
 %>
 <%--Edit Stores--%>
-<div style="display: flex; justify-content: center;"><h1>EDIT</h1></div>
+<div style="display: flex; justify-content: center;"><h1>EDIT STORE</h1></div>
 <div style="display: flex; justify-content: center; margin-top: 10px">
 
     <form id="editForm" method="get" action="editstores" onsubmit="return false">
@@ -159,7 +164,7 @@
     else if(servletPath.equals("/removestores")){
 %>
 <%--Remove Stores--%>
-<div style="display: flex; justify-content: center;"><h1>REMOVE</h1></div>
+<div style="display: flex; justify-content: center;"><h1>REMOVE STORE</h1></div>
 <div style="display: flex; justify-content: center; margin-top: 10px">
 
 
@@ -185,10 +190,10 @@
         if(selectedStore != null){
     %>
     <form action="removestores" style="display: flex; justify-content: center; margin-top: 20px">
-        <p style="margin-right: 10px"><%=selectedStore.getStoreId()%></p>
-        <p style="margin-right: 10px"><%=selectedStore.getStoreName()%></p>
-        <p style="margin-right: 10px"><%=selectedStore.getStoreAddress()%></p>
-        <%=selectedStore.getGamesList() != null ? selectedStore.getGamesList() : "[No Games in the Store]"%>
+        <h4 style="margin-right: 10px"><%=selectedStore.getStoreId()%> | <%=selectedStore.getStoreName()%>
+            | <%=selectedStore.getStoreAddress()%> | <%=!selectedStore.getGamesList().isEmpty() ? selectedStore.getGamesList()
+                    : "[No Games in the Store]"%></h4>
+
         <button name="removeStore" type="submit" value="Remove">Remove</button>
     </form>
 
@@ -199,6 +204,51 @@
 
 <%
 }
+    // Add Games Servlet
+    else if(servletPath.equals("/addgames")){
+%>
+<%--Add Games--%>
+<div style="display: flex; justify-content: center;"><h1>ADD GAME</h1></div>
+<div style="display: flex; justify-content: center; margin-top: 10px">
+
+    <form id="addGameForm" method="get" action="addgames" onsubmit="return false">
+
+        <select onchange="document.getElementById('addGameForm').submit();" name="selectedStore">
+            <option disabled selected>Select a store</option>
+            <%
+                stores = (ArrayList) request.getAttribute("stores");
+
+                for (int i = 0; i < stores.size(); i++) {
+            %>
+            <option value="<%=i%>"><%= stores.get(i).getStoreId()+" | "+ stores.get(i).getStoreName()%></option>
+            <%
+                }
+            %>
+        </select>
+    </form>
+</div>
+<div style="display: flex; justify-content: center; flex-direction: column; align-items: center">
+    <%
+        selectedStore = (Store) request.getAttribute("selectedStore");
+        if(selectedStore != null){
+    %>
+    <h4><%=selectedStore.getStoreId()%> | <%=selectedStore.getStoreName()%> | <%=selectedStore.getStoreAddress()%></h4>
+    <br>
+
+    <form action="addgames">
+        <label for="gameName">Game Name:</label><br>
+        <input type="text" name="gameName" required><br><br>
+
+<%--        <input value="<%=selectedStore.getStoreId()%>" hidden name="id">--%>
+        <input type="submit" value="Add">
+    </form>
+    <%
+        }
+    %>
+</div>
+
+<%
+    }
 %>
 
 </body>

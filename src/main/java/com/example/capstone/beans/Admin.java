@@ -12,8 +12,6 @@ public class Admin {
     private boolean loggedIn;
     private ArrayList<Store> stores = new ArrayList<>();
 
-
-
     public Admin() {
     }
 

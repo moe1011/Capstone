@@ -1,22 +1,17 @@
 package com.example.capstone.beans;
 
+import java.util.ArrayList;
+
 public class Store {
     private long storeId; // Will be retrieved after being added to database?
     private String storeName;
     private String storeAddress;
-    private String[] gamesList;
-    private static long counter = 1; // Temporary until database is setup
+    private ArrayList<String> gamesList = new ArrayList<>();
 
-    public Store(){
-        this.storeId = counter;
-        counter++;
-    }
-
-    public Store(String storeName, String storeAddress) {
-        this.storeId = counter;
-        counter++;
+    public Store(String storeName, String storeAddress, long storeId) {
         this.storeName = storeName;
         this.storeAddress = storeAddress;
+        this.storeId = storeId;
     }
 
     public long getStoreId() {
@@ -39,12 +34,16 @@ public class Store {
         this.storeAddress = storeAddress;
     }
 
-    public String[] getGamesList() {
+    public ArrayList<String> getGamesList() {
         return gamesList;
     }
 
-    public void setGamesList(String[] gamesList) {
+    public void setGamesList(ArrayList<String> gamesList) {
         this.gamesList = gamesList;
+    }
+
+    public void addGame(String game){
+        gamesList.add(game);
     }
 
 }

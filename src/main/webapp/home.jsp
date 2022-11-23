@@ -29,8 +29,14 @@
                 <a href="removestores">Remove Stores</a>
             </div>
         </div>
-
-
+        <br/>
+        <div class="dropdown">
+            <button class="btn Nav">Games</button>
+            <div class="dropdown-content">
+                <a href="addgames">Add Games</a>
+                <a href="">Remove Games</a>
+            </div>
+        </div>
         <br/>
 
         <div style="justify-content: center; display: flex;">
