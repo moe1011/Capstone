@@ -33,7 +33,7 @@
             <button class="btn Nav">Games</button>
             <div class="dropdown-content">
                 <a href="addgames">Add Games</a>
-                <a href="">Remove Games</a>
+                <a href="removegames">Remove Games</a>
             </div>
         </div>
         <br/>
@@ -170,7 +170,7 @@
 
     <form id="removeForm" method="get" action="removestores" onsubmit="return false">
 
-        <select onchange="document.getElementById('removeForm').submit();" name="selectedStore" >
+        <select onchange="document.getElementById('removeForm').submit();" name="selectedStore">
             <option disabled selected>Select a store</option>
             <%
                 stores = (ArrayList) request.getAttribute("stores");
@@ -245,6 +245,55 @@
     <%
         }
     %>
+</div>
+
+<%
+}
+// Remove Games Servlet
+else if(servletPath.equals("/removegames")){
+%>
+<%--Remove Games--%>
+<div style="display: flex; justify-content: center;"><h1>REMOVE GAME</h1></div>
+<div style="display: flex; justify-content: center; margin-top: 10px">
+
+    <form id="removeGameForm" method="get" action="removegames" onsubmit="return false">
+
+        <select onchange="document.getElementById('removeGameForm').submit();" name="selectedStore">
+            <option disabled selected>Select a store</option>
+            <%
+                stores = (ArrayList) request.getAttribute("stores");
+
+                for (int i = 0; i < stores.size(); i++) {
+            %>
+            <option value="<%=i%>"><%= stores.get(i).getStoreId()+" | "+ stores.get(i).getStoreName()%></option>
+            <%
+                }
+            %>
+        </select>
+    </form>
+</div>
+<div style="display: flex; justify-content: center; flex-direction: column; align-items: center">
+    <%
+        selectedStore = (Store) request.getAttribute("selectedStore");
+        if(selectedStore != null){
+            if(selectedStore.getGamesList().isEmpty()){
+    %>
+            <h4>[No Games in the Store]</h4>
+    <%
+        }
+        for (int i = 0; i < selectedStore.getGamesList().size(); i++) {
+    %>
+
+    <form action="removegames" style="display: flex; justify-content: center; margin-top: 20px">
+        <h4><%=selectedStore.getGamesList().get(i)%></h4>
+        <button name="removeGame" type="submit" value="<%=i%>">Remove</button>
+    </form>
+
+    <%
+            }
+        }
+    %>
+
 </div>
 
 <%

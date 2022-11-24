@@ -186,6 +186,44 @@ public class Application extends HttpServlet {
 
         }
 
+        @WebServlet(name = "removegames", value = "/removegames")
+        public static class RemoveGames extends HttpServlet {
+            Store chosenStore = null;
+            @Override
+            protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+                request.setAttribute("stores", admin.getStores());
+
+                String selectedStore = request.getParameter("selectedStore");
+                if (selectedStore != null){
+                    chosenStore = admin.getStores().get(Integer.parseInt(selectedStore));
+                    request.setAttribute("selectedStoreIndex", Integer.parseInt(selectedStore));
+
+                    request.setAttribute("selectedStore", chosenStore);
+                }
+
+                if(request.getParameter("removeGame") != null){
+                    System.out.println(request.getParameter("removeGame"));
+                    chosenStore.removeGame(Integer.parseInt(request.getParameter("removeGame")));
+                }
+
+//                String gameName = request.getParameter("gameName");
+//
+//                if(gameName != null){
+//                    chosenStore.addGame(gameName);
+//                }
+
+
+                request.getRequestDispatcher("/stores.jsp").include(request, response);
+            }
+
+            @Override
+            protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+                request.getRequestDispatcher("/stores.jsp").include(request, response);
+            }
+
+        }
+
 
 
     }

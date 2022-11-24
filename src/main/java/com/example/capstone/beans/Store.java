@@ -46,4 +46,8 @@ public class Store {
         gamesList.add(game);
     }
 
+    public void removeGame(int index){
+        gamesList.remove(index);
+    }
+
 }
