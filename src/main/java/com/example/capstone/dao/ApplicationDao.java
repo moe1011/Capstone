@@ -13,7 +13,7 @@ public class ApplicationDao {
 
         try {
             //Connect to DB
-            Connection connection = DBConnection.getConnectionToDatabase();
+            Connection connection = DBConnection.getInstance();
 
             //Write query
             String createQuery = "INSERT INTO users (`fullName`,`email`,`username`,`password`,`verifiedEmail`) VALUES (?,?,?,?,?)";
@@ -43,7 +43,7 @@ public class ApplicationDao {
             boolean isValidUser = false;
         try {
             //connect to database
-            Connection connection = DBConnection.getConnectionToDatabase();
+            Connection connection = DBConnection.getInstance();
 
             //query the database with username and password
             String userQuery = "SELECT * FROM users WHERE username=? AND password=?";
@@ -71,7 +71,7 @@ public class ApplicationDao {
         boolean existingUser = false;
         try {
             //connect to database
-            Connection connection = DBConnection.getConnectionToDatabase();
+            Connection connection = DBConnection.getInstance();
 
             //query the database with username and password
             String userQuery = "SELECT * FROM users WHERE username=?";
@@ -98,7 +98,7 @@ public class ApplicationDao {
         boolean isEmailVerified = false;
         try {
             //connect to database
-            Connection connection = DBConnection.getConnectionToDatabase();
+            Connection connection = DBConnection.getInstance();
 
             //query the database with username and password
             String userQuery = "SELECT verifiedEmail FROM users WHERE username=?";
@@ -129,7 +129,7 @@ public class ApplicationDao {
     public void addEmailVerificationToken(String username, String token) {
         try {
             //Connect to DB
-            Connection connection = DBConnection.getConnectionToDatabase();
+            Connection connection = DBConnection.getInstance();
 
             //Write query
             String createQuery = "UPDATE users SET emailVerificationToken=? WHERE username=?";
@@ -155,7 +155,7 @@ public class ApplicationDao {
         String emailVerificationToken = "";
         try {
             //Connect to DB
-            Connection connection = DBConnection.getConnectionToDatabase();
+            Connection connection = DBConnection.getInstance();
 
             //Write query
             String query = "SELECT emailVerificationToken FROM users WHERE username=?";
@@ -182,7 +182,7 @@ public class ApplicationDao {
     public void markEmailVerified(String username) {
         try {
             //Connect to DB
-            Connection connection = DBConnection.getConnectionToDatabase();
+            Connection connection = DBConnection.getInstance();
 
             //Write query
             String Query = "UPDATE users SET verifiedEmail='true' WHERE username=?";
@@ -207,7 +207,7 @@ public class ApplicationDao {
         boolean existingEmail = false;
         try {
             //connect to database
-            Connection connection = DBConnection.getConnectionToDatabase();
+            Connection connection = DBConnection.getInstance();
 
             //query the database with username and password
             String userQuery = "SELECT * FROM users WHERE email=?";
@@ -233,7 +233,7 @@ public class ApplicationDao {
     public void addPasswordResetToken(String email, String passwordToken) {
         try {
             //Connect to DB
-            Connection connection = DBConnection.getConnectionToDatabase();
+            Connection connection = DBConnection.getInstance();
 
             //Write query
             String passwordResetQuery = "UPDATE users SET passwordResetToken=? WHERE email=?";
@@ -259,7 +259,7 @@ public class ApplicationDao {
         boolean validPasswordResetToken = false;
         try {
             //connect to database
-            Connection connection = DBConnection.getConnectionToDatabase();
+            Connection connection = DBConnection.getInstance();
 
             //query the database with username and password
             String userQuery = "SELECT * FROM users WHERE email=?";
@@ -288,7 +288,7 @@ public class ApplicationDao {
     public void changePassword(String email, String newPassword) {
         try {
             //Connect to DB
-            Connection connection = DBConnection.getConnectionToDatabase();
+            Connection connection = DBConnection.getInstance();
 
             //Write query
             String passwordResetQuery = "UPDATE users SET password=? WHERE email=?";
