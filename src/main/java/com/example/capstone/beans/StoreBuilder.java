@@ -3,8 +3,12 @@ package com.example.capstone.beans;
 public class StoreBuilder {
     private String storeName;
     private String storeAddress;
-    private long storeId; // Will be retrieved after being added to database?
-    private static long counter = 1; // Temporary until database is setup
+    private long storeId;
+
+    public StoreBuilder setStoreId(long storeId) {
+        this.storeId = storeId;
+        return this;
+    }
 
     public StoreBuilder setStoreName(String storeName) {
         this.storeName = storeName;
@@ -17,8 +21,6 @@ public class StoreBuilder {
     }
 
     public Store createStore() {
-        this.storeId = counter;
-        counter++; // this will have to removed in the future to dynamically retrieve the store id.
         return new Store(storeName, storeAddress, storeId);
     }
 }

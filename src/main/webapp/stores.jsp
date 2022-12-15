@@ -237,7 +237,7 @@
 
     <form action="addgames">
         <label for="gameName">Game Name:</label><br>
-        <input type="text" name="gameName" required><br><br>
+        <input type="text" name="gameName" id="gameName" required><br><br>
 
 <%--        <input value="<%=selectedStore.getStoreId()%>" hidden name="id">--%>
         <input type="submit" value="Add">
@@ -286,7 +286,7 @@ else if(servletPath.equals("/removegames")){
 
     <form action="removegames" style="display: flex; justify-content: center; margin-top: 20px">
         <h4><%=selectedStore.getGamesList().get(i)%></h4>
-        <button name="removeGame" type="submit" value="<%=i%>">Remove</button>
+        <button name="removeGame" type="submit" value="<%=selectedStore.getGamesList().get(i)%>">Remove</button>
     </form>
 
     <%

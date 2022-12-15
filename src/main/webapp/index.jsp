@@ -7,7 +7,7 @@
 </head>
 <body>
 <div style="text-align: center">
-    <h1 >Capstone - Stage 2</h1>
+    <h1 >Capstone - Stage 4</h1>
     <br/>
     <h2>
         <a style="margin-right: 5%" href="signup"><button class="btn">Sign Up</button></a>

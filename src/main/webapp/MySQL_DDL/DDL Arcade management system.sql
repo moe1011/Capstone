@@ -11,22 +11,21 @@ CREATE TABLE IF NOT EXISTS `arcadeDB`.`users` (
   `emailVerificationToken` VARCHAR(45) NULL,
   `passwordResetToken` VARCHAR(45) NULL,
 
-  PRIMARY KEY (`id`, `username`));
+  PRIMARY KEY (`id`));
 
 CREATE TABLE IF NOT EXISTS `arcadeDB`.`store` (
-  `id` INT NOT NULL auto_increment,
+  `id` BIGINT NOT NULL auto_increment,
   `name` VARCHAR(45) NOT NULL,
-  `location` VARCHAR(45) NOT NULL,
+  `address` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`id`));
 
 CREATE TABLE IF NOT EXISTS `arcadeDB`.`game` (
-  `id` INT NOT NULL auto_increment,
-  `gameName` VARCHAR(45) NOT NULL,
-  `StoreID` INT NOT NULL,
+  `id` BIGINT NOT NULL auto_increment,
+  `name` VARCHAR(45) NOT NULL,
+  `storeID` BIGINT NOT NULL,
   PRIMARY KEY (`id`),
   CONSTRAINT `fk_Employee_Stores0`
-    FOREIGN KEY (`StoreID`)
+    FOREIGN KEY (`storeID`)
     REFERENCES `arcadeDB`.`store` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
-
